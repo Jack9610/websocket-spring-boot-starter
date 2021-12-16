@@ -75,3 +75,18 @@ public class BusinessService{
     }
 }
 ``` 
+3. 收消息
+```java
+public class HalloMessageHandler implements MessageHandler<TestParam>{
+    
+     // 处理前端发送的消息
+    public void handleMessage(TestParam testparam,Identity identity){
+        
+    }
+    
+    // 定义一个场景
+    public String getScene(){
+        return "test";
+    }
+}
+```
