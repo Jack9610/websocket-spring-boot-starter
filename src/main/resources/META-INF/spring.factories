@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.jack.websocket.WebsocketAutoConfiguration,\
+com.jack.websocket.config.WebSocketConfiguration
