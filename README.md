@@ -75,8 +75,9 @@ public class BusinessService{
     }
 }
 ``` 
-3. 收消息
+4. 收消息
 ```java
+// TestParam 只是一个普通的JavaBean
 public class HalloMessageHandler implements MessageHandler<TestParam>{
     
      // 处理前端发送的消息
@@ -90,3 +91,79 @@ public class HalloMessageHandler implements MessageHandler<TestParam>{
     }
 }
 ```
+
+#### 测试html
+
+```html
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+</head>
+<style>
+    .box{
+        border: 1px solid red;
+        width: 1000px;
+        height: 600px;
+        overflow-y: auto;
+    }
+
+</style>
+<body>
+<div class="box">
+</div>
+<input type="text" id="input">
+<button id="send">发消息</button>
+<button id="end">结束</button>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+    // 发送消息参数示例  ：  {"scene":"test","data":{"name":"Jack","description":"一只菜鸟"}}
+    // 连接参数  ：  ws://ip:port/ws?Authorization={{授权信息}}
+
+
+    var ws = new WebSocket("ws://127.0.0.1:8000/ws?Authorization=abc");
+    ws.onopen = function(){
+        // Web Socket 已连接上，使用 send() 方法发送数据
+        alert("连接成功...");
+    };
+    ws.onclose = function(e){
+        // 关闭 websocket
+        alert("连接已关闭..."+ e.status + " " + e.reason);
+    };
+
+    ws.onmessage = function (evt) {
+        var received_msg = evt.data;
+        $(".box").append('收到：' + received_msg + '<br>');
+    };
+
+    ws.onerror = function (evt) {
+        var received_msg = evt.data;
+        alert("error" + received_msg)
+        $(".box").append(received_msg + '<br>');
+    };
+
+    $('#send').click(function(){
+        $(".box").append($('#input').val() + '<br>');
+        ws.send($('#input').val());
+        $('#input').val('')
+    })
+
+    $('#end').click(function(){
+        ws.close()
+    })
+
+    self.setInterval("send()",10000);
+
+    function send() {
+        $(".box").append('发送：ping' + '<br>');
+        ws.send("ping")
+    }
+
+</script>
+</html>
+
+```
+
