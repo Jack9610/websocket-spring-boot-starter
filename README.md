@@ -3,12 +3,13 @@
 # readme
 
 #### 介绍
-一个简单，快速，低配的spring-boot-starter，方便springboot集成websocket
+一个简单，快速，低配的spring-boot-starter,方便springboot集成websocket
 
 #### 特点
 1. 简单，低配
 2. 支持websocket连接可控，可以防止前端恶意连接，重复连接
 3. 支持单点发送，部分发送，所有发送
+4. 支持消息中转，集群环境跨机器传递消息(redis 做的消息中转，需要配置redis)
 
 
 #### 安装教程
