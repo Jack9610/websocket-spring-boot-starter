@@ -53,7 +53,7 @@ public class WebsocketAutoConfiguration {
     }
 
     @Bean
-    public WsTemplate wsTemplate(MessageTransferHandler messageTransferHandler) {
-        return new WsTemplate(messageTransferHandler);
+    public WsTemplate wsTemplate(MessageTransferHandler messageTransferHandler, WebSocketManager webSocketManager) {
+        return new WsTemplate(messageTransferHandler, webSocketManager);
     }
 }

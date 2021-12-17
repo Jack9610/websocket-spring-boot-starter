@@ -14,8 +14,11 @@ public class WsTemplate {
 
     private MessageTransferHandler messageTransferHandler;
 
-    public WsTemplate(MessageTransferHandler messageTransferHandler) {
+    private WebSocketManager webSocketManager;
+
+    public WsTemplate(MessageTransferHandler messageTransferHandler, WebSocketManager webSocketManager) {
         this.messageTransferHandler = messageTransferHandler;
+        this.webSocketManager = webSocketManager;
     }
 
     public void sendMessageToPart(String message, List<Identity> identities) {
@@ -28,6 +31,11 @@ public class WsTemplate {
     }
 
     public void sendMessageToSingle(String message, Identity identity) {
-        messageTransferHandler.publishMessage(RecipientType.SINGLE, message, Collections.singletonList(identity.getIdentityId()));
+        WebSocketClient client = webSocketManager.getClient(identity.getIdentityId());
+        if (client != null) {
+            client.pushMessageToClient(message);
+        } else {
+            messageTransferHandler.publishMessage(RecipientType.SINGLE, message, Collections.singletonList(identity.getIdentityId()));
+        }
     }
 }
