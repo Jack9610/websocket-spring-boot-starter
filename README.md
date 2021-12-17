@@ -3,7 +3,7 @@
 # readme
 
 #### 介绍
-一个简单，快速，低配的spring-boot-starter,方便springboot集成websocket
+一个简单，快速，低配的spring-boot-starter,是对`spring-boot-starter-websocket`的扩展与二次封装，方便springboot更简单去操作websocket
 
 #### 特点
 1. 简单，低配
