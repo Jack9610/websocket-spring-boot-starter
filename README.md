@@ -73,7 +73,9 @@ public class BusinessService{
     private WsTemplate wsTemplate;
 
     public void test(){
-        wsTemplate.sendMessageToAll();
+//        wsTemplate.sendMessageToAll(...);
+//        wsTemplate.sendMessageToPart(...);
+//        wsTemplate.sendMessageToSingle(...);
     }
 }
 ``` 
