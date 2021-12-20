@@ -6,12 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.RedisScript;
 
 import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,6 +68,7 @@ public class WebSocketManager implements InitializingBean, DisposableBean {
     public static String getClientKey(String identityId) {
         return CLIENT_KEY_PREFIX + identityId;
     }
+
     public Collection<WebSocketClient> allClient() {
         return clients.values();
     }
@@ -93,7 +97,9 @@ public class WebSocketManager implements InitializingBean, DisposableBean {
     }
 
     private Integer getCurrentConnectedCount() {
-        return clients.values().size();
+        RedisScript<Long> redisScript = RedisScript.of(new ClassPathResource("lua/count.lua"), Long.class);
+        Long count = stringRedisTemplate.execute(redisScript, Collections.singletonList(CLIENT_KEY_PREFIX + "*"));
+        return count != null ? count.intValue() : 0;
     }
 
     @Override

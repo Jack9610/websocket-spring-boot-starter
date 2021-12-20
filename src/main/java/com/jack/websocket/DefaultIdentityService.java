@@ -7,7 +7,7 @@ package com.jack.websocket;
 public class DefaultIdentityService implements IdentityService {
 
     @Override
-    public Identity getIdentity(String authentication) {
-        return () -> authentication;
+    public Identity getIdentity(String authorization) {
+        return () -> authorization;
     }
 }

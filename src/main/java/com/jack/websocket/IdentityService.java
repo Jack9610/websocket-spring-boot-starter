@@ -6,5 +6,5 @@ package com.jack.websocket;
  */
 public interface IdentityService {
 
-    Identity getIdentity(String authentication);
+    Identity getIdentity(String authorization);
 }
