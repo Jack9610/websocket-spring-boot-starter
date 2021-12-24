@@ -31,7 +31,7 @@ maven install
         </dependency>
 ```
 #### 使用说明
-1.  实现 `Identity` 
+1.  实现 `Identity` ,这个接口是对当前使用websocket对象的抽象，建议使用当前系统登录的user，只需要返回一个唯一的`IdentityId`即可
 ```java
 @Data
 public class User implements Identity {
@@ -49,7 +49,7 @@ public class User implements Identity {
     }
 }
 ```
-2. 实现 `IdentityService`
+2. 实现 `IdentityService`,这个接口提供返回`Identity`的服务，这里返回的`Identity`将作用于鉴定是否连接，接收消息的MessageHandler的入参
 ```java
 @Service
 public class IdentityServiceImpl implements IdentityService {
@@ -67,7 +67,7 @@ public class IdentityServiceImpl implements IdentityService {
 ```
 3. 发消息
 ```java
-public class BusinessService{
+public class BizService{
     
     @Autowired
     private WsTemplate wsTemplate;
@@ -81,15 +81,18 @@ public class BusinessService{
 ``` 
 4. 收消息
 ```java
-// TestParam 只是一个普通的JavaBean
+// TestParam 只是一个普通的JavaBean，自己定义的，前端在这个Scene下，必须传该javabean对应的json格式数据字符串
+// 前端发送数据示例: {"scene":"test","data":{"name":"Jack","description":"一只菜鸟"}}
 public class HalloMessageHandler implements MessageHandler<TestParam>{
     
      // 处理前端发送的消息
+    @Override
     public void handleMessage(TestParam testparam,Identity identity){
-        
+       // do Something
     }
     
     // 定义一个场景
+    @Override
     public String getScene(){
         return "test";
     }
